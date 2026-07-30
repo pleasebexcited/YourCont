@@ -1,0 +1,5 @@
+# static/js/.gitkeep: Keeps the empty JavaScript folder in Git
+#
+# Keeps a JavaScript folder reserved in Git.
+# This assessment build uses almost no custom JS yet, so the folder is here for later work if needed.
+

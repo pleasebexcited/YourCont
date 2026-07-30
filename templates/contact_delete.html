@@ -1,0 +1,37 @@
+{#
+  contact_delete.html: Confirm delete contact page
+
+  Are you sure screen before removing a contact.
+  White card, warning icon, Delete and Cancel match my confirm Hi Fi.
+  Cancel goes back to the contact detail page.
+  Delete still only returns to the list until real remove logic is built against Postgres.
+#}
+{% extends "base.html" %}
+
+{% block title %}Delete Contact | YourCont{% endblock %}
+
+{% block content %}
+<section class="confirm-card">
+    <h1 class="confirm-title">Delete Contact</h1>
+
+    {# Red warning triangle drawn inline so I do not need an extra image file. #}
+    <div class="warning-icon" aria-hidden="true">
+        <svg viewBox="0 0 120 110" role="img">
+            <path d="M60 8 L114 102 H6 Z" fill="#FF0000" stroke="#b00000" stroke-width="4" stroke-linejoin="round"></path>
+            <rect x="54" y="38" width="12" height="36" rx="4" fill="#ffffff"></rect>
+            <circle cx="60" cy="86" r="7" fill="#ffffff"></circle>
+        </svg>
+    </div>
+
+    <p class="confirm-question">Are you sure you want to delete this contact?</p>
+    <p class="confirm-name">{{ contact.first_name }} {{ contact.last_name }}</p>
+
+    <div class="btn-row confirm-actions">
+        {# Temporary get form. Real delete will POST and remove the owned row. #}
+        <form action="{{ url_for('contacts') }}" method="get">
+            <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+        <a class="btn btn-cancel" href="{{ url_for('contact_detail', contact_id=contact.id) }}">Cancel</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,61 @@
+{#
+  contact_detail.html: View one contact page
+
+  Read only contact view for YourCont.
+  Every field from my assessment field list is shown here, then Edit and Delete underneath.
+  Values still come from sample data in routes.py until real contact rows exist.
+  Edit and Delete only open other screens for now.
+#}
+{% extends "base.html" %}
+
+{% block title %}Contact | YourCont{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1 class="panel-title">Contact</h1>
+
+    <div class="avatar-wrap">
+        <div class="avatar avatar-lg">
+            {% include "partials/avatar.svg" %}
+        </div>
+    </div>
+
+    {# Read only boxes look like inputs but are plain text so nothing is edited here. #}
+    <div class="contact-form">
+        <div class="field-row">
+            <div class="field">
+                <label>First Name</label>
+                <div class="readonly-box">{{ contact.first_name }}</div>
+            </div>
+            <div class="field">
+                <label>Last Name</label>
+                <div class="readonly-box">{{ contact.last_name }}</div>
+            </div>
+        </div>
+
+        <label>E-mail</label>
+        <div class="readonly-box">{{ contact.email }}</div>
+
+        <label>Phone</label>
+        <div class="readonly-box">{{ contact.phone }}</div>
+
+        <label>Address</label>
+        <div class="readonly-box">{{ contact.address }}</div>
+
+        {# birthday display uses day/month/year for NZ style reading on screen. #}
+        <label>Birthday</label>
+        <div class="readonly-box">{{ contact.birthday_display }}</div>
+
+        <label>Relationship</label>
+        <div class="readonly-box">{{ contact.relationship }}</div>
+
+        <label>Notes</label>
+        <div class="readonly-box notes-box">{{ contact.notes }}</div>
+    </div>
+
+    <div class="btn-row">
+        <a class="btn btn-primary" href="{{ url_for('contact_edit', contact_id=contact.id) }}">Edit</a>
+        <a class="btn btn-danger" href="{{ url_for('contact_delete', contact_id=contact.id) }}">Delete</a>
+    </div>
+</section>
+{% endblock %}

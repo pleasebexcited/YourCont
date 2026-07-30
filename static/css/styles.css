@@ -1,0 +1,521 @@
+/*
+  styles.css: Shared look and layout for every page
+
+  Shared colours, layout, and mobile rules for every YourCont screen.
+  Hi Fi blues live in root variables so a palette tweak updates log in, sign up, contacts, and forms together.
+  Flexbox and a small media query keep the layout usable from phone width up to a monitor.
+  Linked from base.html so every page loads the same look.
+  I have used the same hex codes from my Figma Hi Fi design and style guide.
+*/
+
+:root {
+  /* Hex values taken from my Figma style guide for YourCont. */
+  --blue-dark: #1254B0;
+  --blue-page: #4486E3;
+  --blue-field: #B4D3F9;
+  --blue-button: #2f6fd0;
+  --text: #ffffff;
+  --danger: #FF0000;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  --font: "Inter", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--text);
+  background: var(--blue-page);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-auth {
+  /* Log in and sign up use the darker blue full page background from my Hi Fi. */
+  background: var(--blue-dark);
+}
+
+/* Top bar shown after someone is signed into YourCont. */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  background: var(--blue-dark);
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.15rem;
+}
+
+.home-icon {
+  /* Twenty percent opacity matches the home icon treatment in my Hi Fi header. */
+  display: inline-flex;
+  opacity: 0.2;
+}
+
+.home-icon svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: var(--text);
+}
+
+.user-chip {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #dbeafe;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-chip svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: var(--blue-dark);
+}
+
+.logout-link {
+  font-weight: 600;
+}
+
+/* Centre the main card area for both app pages and auth pages. */
+.main-shell,
+.auth-shell {
+  width: min(920px, calc(100% - 2rem));
+  margin: 1.5rem auto 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.auth-shell {
+  padding-top: 3rem;
+}
+
+.flash-list {
+  list-style: none;
+  width: min(520px, 100%);
+  margin: 1rem 0 0;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.18);
+  box-sizing: border-box;
+}
+
+.page-auth .flash-list {
+  /* Darker flash panel so messages stay readable on the auth background. */
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.auth-card {
+  width: min(520px, 100%);
+  margin: 0 auto;
+  background: var(--blue-dark);
+  border-radius: 28px;
+  padding: 1.75rem 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.panel {
+  width: min(640px, 100%);
+  margin: 0 auto;
+  background: var(--blue-dark);
+  border-radius: 28px;
+  padding: 1.75rem 1.5rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.panel-contacts {
+  /* Flex column lets Create Contact sit near the bottom of the content box. */
+  display: flex;
+  flex-direction: column;
+  min-height: 70vh;
+}
+
+.panel-contacts .panel-title {
+  margin-bottom: 1rem;
+}
+
+.panel-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 1.75rem;
+}
+
+.brand-title {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.auth-heading,
+.panel-title {
+  margin: 0 0 1.25rem;
+  text-align: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.auth-form,
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+/* Light blue fields match the Hi Fi input treatment across forms and Coming Soon labels. */
+input,
+textarea,
+.readonly-box,
+.coming-soon-field {
+  width: 100%;
+  border: none;
+  border-radius: 14px;
+  background: var(--blue-field);
+  color: #1e3a5f;
+  font: inherit;
+  padding: 0.85rem 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 6rem;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #4b6d99;
+}
+
+.field-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 14px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-primary {
+  background: var(--blue-button);
+  color: var(--text);
+}
+
+.btn-danger {
+  background: var(--danger);
+  color: var(--text);
+}
+
+.btn-wide {
+  width: 100%;
+  margin-top: 0.75rem;
+}
+
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.btn-row .btn {
+  flex: 1;
+}
+
+.auth-switch,
+.auth-note,
+.empty-state {
+  text-align: center;
+}
+
+.auth-switch {
+  margin-top: 1.25rem;
+  font-weight: 600;
+}
+
+.auth-switch a {
+  text-decoration: underline;
+}
+
+.auth-note {
+  margin-top: 0.35rem;
+  opacity: 0.85;
+  font-size: 0.9rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.coming-soon-field {
+  /* Visible only. Extra rules sit on top of the shared field look above. */
+  flex: 1 1 160px;
+  opacity: 0.85;
+  font-weight: 600;
+  color: #1e3a5f;
+}
+
+.contact-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.contact-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 0.75rem 1rem;
+}
+
+.contact-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.contact-name {
+  font-weight: 700;
+}
+
+.contact-sub {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #9ec4f0;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.avatar-sm {
+  width: 3rem;
+  height: 3rem;
+}
+
+.avatar-lg {
+  width: 7rem;
+  height: 7rem;
+}
+
+.avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.avatar-upload {
+  /* Overflow visible so the plus badge is not clipped off the circle. */
+  overflow: visible;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  display: block;
+}
+
+.avatar-add {
+  position: absolute;
+  right: -0.15rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #111827;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.15rem;
+  line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.readonly-box {
+  min-height: 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.notes-box {
+  min-height: 6rem;
+  align-items: flex-start;
+  padding-top: 0.85rem;
+}
+
+.confirm-card {
+  /* White delete card stands apart from the dark blue contact panels, as in my Hi Fi. */
+  width: min(520px, 100%);
+  margin: 2rem auto 0;
+  background: #ffffff;
+  border-radius: 28px;
+  padding: 2rem 1.75rem 2.25rem;
+  box-shadow: var(--shadow);
+  text-align: center;
+  color: #111827;
+}
+
+.confirm-title {
+  margin: 0 0 1.25rem;
+  color: var(--blue-dark);
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.warning-icon {
+  width: 7rem;
+  margin: 0 auto 1.25rem;
+}
+
+.warning-icon svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.confirm-question {
+  margin: 0 0 0.65rem;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.confirm-card .confirm-name {
+  margin: 0 0 1.75rem;
+  color: var(--blue-dark);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.confirm-actions {
+  justify-content: center;
+  align-items: stretch;
+}
+
+.confirm-actions form {
+  flex: 1;
+  display: flex;
+}
+
+.confirm-actions .btn {
+  flex: 1;
+  min-width: 8rem;
+}
+
+.btn-cancel {
+  background: #ffffff;
+  color: var(--blue-dark);
+  border: 2px solid var(--blue-dark);
+}
+
+.empty-state {
+  margin: 2rem 0 0.5rem;
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  /* Stack name rows and button pairs on narrow screens so phones stay usable. */
+  .main-shell,
+  .auth-shell {
+    width: calc(100% - 1rem);
+    margin-top: 1rem;
+  }
+
+  .auth-card,
+  .panel {
+    border-radius: 22px;
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .field-row,
+  .btn-row {
+    flex-direction: column;
+  }
+
+  .confirm-actions {
+    flex-direction: column;
+  }
+
+  .brand-title,
+  .auth-heading,
+  .panel-title {
+    font-size: 1.45rem;
+  }
+
+  .toolbar .btn {
+    width: 100%;
+  }
+
+  .panel-contacts {
+    min-height: auto;
+  }
+}

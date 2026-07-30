@@ -1,0 +1,37 @@
+# .gitignore: Tells Git which files not to upload
+#
+# Tells Git what must never be uploaded for YourCont.
+# Secrets, the virtual environment, cache folders, and editor clutter stay on my PC so GitHub only gets source I am happy for markers to see.
+
+# Private settings with passwords and keys. Stays on my PC and HDD backup only.
+.env
+
+# Project virtual environment. Markers recreate it from requirements.txt.
+venv/
+.venv/
+
+# Cache files Python creates while the app runs.
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+
+# Packaging leftovers if I ever build a package locally.
+*.egg-info/
+dist/
+build/
+
+# Local upload folder if I test file storage on disk before S3.
+uploads/
+
+# Editor and operating system clutter.
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+
+# Test coverage output if I add automated tests later.
+.coverage
+htmlcov/
+.pytest_cache/

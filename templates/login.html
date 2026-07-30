@@ -1,0 +1,49 @@
+{#
+  login.html: Log in page
+
+  Log in screen for YourCont.
+  Extending base.html reuses fonts, CSS, and flash messages.
+  The blocks below only change what is different here: tab title, dark auth background, no logged in header, and the centred form.
+  AuthRequestHandler reads the posted email and password through /login.
+#}
+{% extends "base.html" %}
+
+{# Tab title for this screen only. #}
+{% block title %}Login | YourCont{% endblock %}
+
+{# Darker blue full page background from my Hi Fi auth screens. #}
+{% block body_class %}page-auth{% endblock %}
+
+{# Empty header removes the YourCont top bar on log in. #}
+{% block header %}{% endblock %}
+
+{# auth shell centres the card lower on the page. #}
+{% block main_class %}auth-shell{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1 class="brand-title">YourCont</h1>
+    <h2 class="auth-heading">Welcome Back!</h2>
+
+    <form class="auth-form" action="{{ url_for('login') }}" method="post">
+
+        {#
+          Hidden CSRF field.
+          Flask WTF rejects forged posts from other sites, which matters for a public log in form.
+        #}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="email@example.com"
+               autocomplete="email" value="{{ email or '' }}" required>
+
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="****************"
+               autocomplete="current-password" required>
+
+        <button class="btn btn-primary" type="submit">Continue to app</button>
+    </form>
+
+    <p class="auth-switch">No account? <a href="{{ url_for('signup') }}">Sign Up</a></p>
+</section>
+{% endblock %}

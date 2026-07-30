@@ -1,0 +1,77 @@
+{#
+  base.html: Shared layout used by every page
+
+  Shared shell for every YourCont page that needs the same fonts, CSS, header, and flash area.
+  Child pages such as login.html or contacts.html extend this file and fill only the blocks that change.
+  I keep the repeated shell here so a header tweak does not mean editing every HTML file.
+  Login and sign up empty the header block and switch to the page auth body class; contacts and forms keep the header and put their page body in content.
+#}
+<!DOCTYPE html>
+<html lang="en-NZ">
+<head>
+    <meta charset="UTF-8">
+
+    {# Without viewport, phones show a tiny desktop layout instead of a readable page. #}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {# Each child page can replace this with its own browser tab title. #}
+    <title>{% block title %}YourCont{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    {# Inter is the typeface from my Hi Fi, so the live site stays close to the Figma screens. #}
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+{# The page auth body class swaps in the darker full page blue used on log in and sign up. #}
+<body class="{% block body_class %}page-app{% endblock %}">
+
+    {% block header %}
+    {#
+      Logged in pages share this top bar.
+      Brand and home both go to the contacts list so there is always a clear way back.
+      Auth pages replace the whole block with nothing.
+    #}
+    <header class="site-header">
+        <div class="header-left">
+            <a class="brand" href="{{ url_for('contacts') }}">YourCont</a>
+            <a class="home-icon" href="{{ url_for('contacts') }}" aria-label="Home">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 3l9 8h-3v9h-5v-6H11v6H6v-9H3l9-8z"></path>
+                </svg>
+            </a>
+        </div>
+        <div class="header-right">
+            <span class="user-chip" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4"></circle>
+                    <path d="M4 20c1.5-4 14.5-4 16 0"></path>
+                </svg>
+            </span>
+            <a class="logout-link" href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </header>
+    {% endblock %}
+
+    <main class="{% block main_class %}main-shell{% endblock %}">
+
+        {# Page body from each child template lands in this block. #}
+        {% block content %}{% endblock %}
+
+        {#
+          Flash messages sit under the card so a success or error note does not shove the form downward when it appears.
+        #}
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul class="flash-list">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        {% endwith %}
+    </main>
+
+</body>
+</html>

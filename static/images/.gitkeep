@@ -1,0 +1,5 @@
+# static/images/.gitkeep: Keeps the empty images folder in Git
+#
+# Keeps the images folder in Git for YourCont even while it is empty.
+# Ready for contact photos or other assets later.
+

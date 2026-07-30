@@ -1,0 +1,11 @@
+<!--
+  partials/avatar.svg: Default person image when no photo is uploaded
+
+  Placeholder person drawing for YourCont when no contact photo has been uploaded yet.
+  List, detail, and form pages include this file so every screen shares the same look without needing a real image file during early milestones.
+-->
+<svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Contact placeholder">
+    <circle cx="40" cy="40" r="40" fill="#9ec4f0"></circle>
+    <circle cx="40" cy="30" r="14" fill="#1254B0"></circle>
+    <path d="M16 68c4-16 44-16 48 0" fill="#1254B0"></path>
+</svg>

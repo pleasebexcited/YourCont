@@ -1,0 +1,76 @@
+{#
+  contact_form.html: Create and edit contact form
+
+  Shared create and update form for YourCont contacts.
+  The mode value switches the title and button between New Contact / Create and Update Contact Details / Confirm.
+  Field list matches my brief and Hi Fi.
+  The plus on the avatar is visual only until S3 image upload.
+#}
+{% extends "base.html" %}
+
+{% block title %}{% if mode == 'create' %}New Contact{% else %}Update Contact{% endif %} | YourCont{% endblock %}
+
+{% block content %}
+<section class="panel">
+    <h1 class="panel-title">{% if mode == 'create' %}New Contact{% else %}Update Contact Details{% endif %}</h1>
+
+    <div class="avatar-wrap">
+        <div class="avatar avatar-lg avatar-upload">
+            <span class="avatar-image">
+                {% include "partials/avatar.svg" %}
+            </span>
+
+            {# Plus badge matches the Hi Fi. It does not open a file picker yet. #}
+            <span class="avatar-add" aria-hidden="true">+</span>
+        </div>
+    </div>
+
+    {#
+      method=get and action back to contacts are temporary so the UI can be clicked through.
+      Real saves will post to the server once contact create and update are wired.
+    #}
+    <form class="contact-form" action="{{ url_for('contacts') }}" method="get">
+        <div class="field-row">
+            <div class="field">
+                <label for="first_name">First Name</label>
+                <input id="first_name" name="first_name" type="text" placeholder="Jane"
+                       value="{{ contact.first_name if contact else '' }}">
+            </div>
+            <div class="field">
+                <label for="last_name">Last Name</label>
+                <input id="last_name" name="last_name" type="text" placeholder="Doe"
+                       value="{{ contact.last_name if contact else '' }}">
+            </div>
+        </div>
+
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" placeholder="Jane@example.com"
+               value="{{ contact.email if contact else '' }}">
+
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="text" placeholder="021 123 4567"
+               value="{{ contact.phone if contact else '' }}">
+
+        <label for="address">Address</label>
+        <input id="address" name="address" type="text" placeholder="12 Example St, Auckland"
+               value="{{ contact.address if contact else '' }}">
+
+        <label for="birthday">Birthday</label>
+        <input id="birthday" name="birthday" type="date"
+               value="{{ contact.birthday if contact else '' }}">
+
+        <label for="relationship">Relationship</label>
+        <input id="relationship" name="relationship" type="text" placeholder="Work"
+               value="{{ contact.relationship if contact else '' }}">
+
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Notes">{{ contact.notes if contact else '' }}</textarea>
+
+        {% if mode == 'create' %}
+        <button class="btn btn-primary btn-wide" type="submit">Create</button>
+        {% else %}
+        <button class="btn btn-primary btn-wide" type="submit">Confirm</button>
+        {% endif %}
+    </form>
+</section>
+{% endblock %}

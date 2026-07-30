@@ -1,0 +1,57 @@
+{#
+  signup.html: Create account page
+
+  Create account screen for YourCont.
+  First name, surname, email, and password post to /signup.
+  After a successful create, AuthRequestHandler sends the person to log in.
+  The empty header block keeps the dark blue Hi Fi auth look without the logged in top bar.
+#}
+{% extends "base.html" %}
+
+{% block title %}Sign up | YourCont{% endblock %}
+{% block body_class %}page-auth{% endblock %}
+{% block header %}{% endblock %}
+{% block main_class %}auth-shell{% endblock %}
+
+{% block content %}
+<section class="auth-card">
+    <h1 class="brand-title">YourCont</h1>
+    <h2 class="auth-heading">Welcome!</h2>
+
+    <form class="auth-form" action="{{ url_for('signup') }}" method="post">
+
+        {# Same CSRF protection as log in, required on every POST form in YourCont. #}
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="field-row">
+            <div class="field">
+                <label for="first_name">First name</label>
+                {#
+                  value= keeps typed names after a failed attempt so people do not re enter everything when only the password was too short.
+                #}
+                <input id="first_name" name="first_name" type="text" placeholder="First Name"
+                       autocomplete="given-name" value="{{ first_name or '' }}" required>
+            </div>
+            <div class="field">
+                <label for="last_name">Surname</label>
+                <input id="last_name" name="last_name" type="text" placeholder="Surname"
+                       autocomplete="family-name" value="{{ last_name or '' }}" required>
+            </div>
+        </div>
+
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" placeholder="email@example.com"
+               autocomplete="email" value="{{ email or '' }}" required>
+
+        {# minlength matches the eight character rule in AuthLogicHandler. #}
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="*****************"
+               autocomplete="new-password" minlength="8" required>
+
+        <button class="btn btn-primary" type="submit">Create account</button>
+    </form>
+
+    <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+    <p class="auth-note">Terms of service</p>
+</section>
+{% endblock %}
