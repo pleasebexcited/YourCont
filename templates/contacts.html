@@ -4,8 +4,9 @@
   Contacts list for YourCont after log in.
   Heading at the top, Coming Soon search and filter under it, then the list, then Create Contact near the bottom to match my Hi Fi.
   require_login on the route keeps guests out.
-  Rows are still sample data until real contact storage is built.
+  Rows come from Postgres for the signed in user only.
 #}
+
 {% extends "base.html" %}
 
 {% block title %}Contacts | YourCont{% endblock %}
@@ -18,6 +19,7 @@
       Search and filter are visible for layout only.
       They do nothing yet, which matches the Coming Soon note I locked for this assessment build.
     #}
+
     <div class="toolbar">
         <div class="coming-soon-field" aria-disabled="true">Search - Coming Soon</div>
         <div class="coming-soon-field" aria-disabled="true">Filter - Coming Soon</div>
@@ -50,6 +52,7 @@
     {% endif %}
 
     {# Footer styling with auto top margin pins Create Contact toward the bottom of the card. #}
+
     <div class="panel-footer">
         <a class="btn btn-primary" href="{{ url_for('contact_new') }}">Create Contact</a>
     </div>

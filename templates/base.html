@@ -6,33 +6,40 @@
   I keep the repeated shell here so a header tweak does not mean editing every HTML file.
   Login and sign up empty the header block and switch to the page auth body class; contacts and forms keep the header and put their page body in content.
 #}
+
 <!DOCTYPE html>
 <html lang="en-NZ">
 <head>
     <meta charset="UTF-8">
 
     {# Without viewport, phones show a tiny desktop layout instead of a readable page. #}
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     {# Each child page can replace this with its own browser tab title. #}
+
     <title>{% block title %}YourCont{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     {# Inter is the typeface from my Hi Fi, so the live site stays close to the Figma screens. #}
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 
 {# The page auth body class swaps in the darker full page blue used on log in and sign up. #}
+
 <body class="{% block body_class %}page-app{% endblock %}">
 
     {% block header %}
+
     {#
       Logged in pages share this top bar.
       Brand and home both go to the contacts list so there is always a clear way back.
       Auth pages replace the whole block with nothing.
     #}
+
     <header class="site-header">
         <div class="header-left">
             <a class="brand" href="{{ url_for('contacts') }}">YourCont</a>
@@ -57,11 +64,13 @@
     <main class="{% block main_class %}main-shell{% endblock %}">
 
         {# Page body from each child template lands in this block. #}
+
         {% block content %}{% endblock %}
 
         {#
           Flash messages sit under the card so a success or error note does not shove the form downward when it appears.
         #}
+
         {% with messages = get_flashed_messages() %}
             {% if messages %}
             <ul class="flash-list">

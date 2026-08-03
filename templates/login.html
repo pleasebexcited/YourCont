@@ -6,18 +6,23 @@
   The blocks below only change what is different here: tab title, dark auth background, no logged in header, and the centred form.
   AuthRequestHandler reads the posted email and password through /login.
 #}
+
 {% extends "base.html" %}
 
 {# Tab title for this screen only. #}
+
 {% block title %}Login | YourCont{% endblock %}
 
 {# Darker blue full page background from my Hi Fi auth screens. #}
+
 {% block body_class %}page-auth{% endblock %}
 
 {# Empty header removes the YourCont top bar on log in. #}
+
 {% block header %}{% endblock %}
 
 {# auth shell centres the card lower on the page. #}
+
 {% block main_class %}auth-shell{% endblock %}
 
 {% block content %}
@@ -31,6 +36,7 @@
           Hidden CSRF field.
           Flask WTF rejects forged posts from other sites, which matters for a public log in form.
         #}
+
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <label for="email">Email</label>

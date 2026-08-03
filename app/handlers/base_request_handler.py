@@ -2,7 +2,8 @@
 app/handlers/base_request_handler.py: Shared helpers for logged in pages
 
 Shared parent for YourCont request handlers.
-My class diagram has AuthRequestHandler now, and ContactRequestHandler planned later, both inheriting from this class, so log in checks, session storage, and flash helpers live once here instead of being copied into every page handler.
+My class diagram has AuthRequestHandler and ContactRequestHandler both inheriting from this class,
+so log in checks, session storage, and flash helpers live once here instead of being copied into every page handler.
 """
 
 from functools import wraps
@@ -13,11 +14,13 @@ from app.models.user_session import UserSession
 from app.services.auth_logic_handler import AuthLogicHandler
 
 class BaseRequestHandler:
+
     """
     Parent request handler that child classes reuse for sessions and short page messages.
     """
 
     def __init__(self, auth_logic=None):
+
         """
         Stores an AuthLogicHandler for session checks.
 
@@ -28,18 +31,22 @@ class BaseRequestHandler:
         self.auth_logic = auth_logic or AuthLogicHandler()
 
     def require_login(self, view_func):
+
         """
         Decorator (my wrapper that sits above page function) protects a YourCont page so only signed in people can open it.
 
         routes.py puts this above private screens such as /contacts.
-        Flask runs the check first, guests get a short message and a redirect to log in, while a valid session continues into the real page function.
+        Flask runs the check first, guests get a short message and a redirect to log in,
+        while a valid session continues into the real page function.
         Keeping the rule here means every protected screen behaves the same.
         """
 
         @wraps(view_func)
         def wrapped(*args, **kwargs):
+
             """
-            Runs before the real page. wraps keeps the original function name for debugging.
+            Runs before the real page.
+            wraps keeps the original function name for debugging.
             """
 
             user_session = self.current_session()
@@ -53,6 +60,7 @@ class BaseRequestHandler:
         return wrapped
 
     def current_session(self):
+
         """
         Reads the signed Flask cookie session and returns a UserSession when it is still valid.
         """
@@ -60,6 +68,7 @@ class BaseRequestHandler:
         return self.auth_logic.validate_session(session.get("user"))
 
     def flash_error(self, message):
+
         """
         Queues an error message, such as a failed log in, for the next page render.
         """
@@ -67,6 +76,7 @@ class BaseRequestHandler:
         flash(message)
 
     def flash_success(self, message):
+
         """
         Queues a success message, such as account created, for the next page render.
         """
@@ -74,6 +84,7 @@ class BaseRequestHandler:
         flash(message)
 
     def store_session(self, user_session: UserSession):
+
         """
         Saves a small user dictionary into the Flask session after a successful log in.
 
@@ -86,6 +97,7 @@ class BaseRequestHandler:
         session.permanent = True
 
     def clear_session(self):
+
         """
         Removes the signed in user from the session when Logout is chosen.
         """

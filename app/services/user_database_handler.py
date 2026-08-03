@@ -12,11 +12,13 @@ from app.models.user import User
 
 
 class UserDatabaseHandlerRds:
+
     """
     Reads and writes YourCont account rows in Postgres.
     """
 
     def insert_user(self, first_name, last_name, email, password_hash):
+
         """
         Inserts a new account and returns it as a User.
 
@@ -27,9 +29,8 @@ class UserDatabaseHandlerRds:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    INSERT INTO users (first_name, last_name, email, password_hash)
-                    VALUES (%s, %s, %s, %s)
-                    RETURNING user_id, first_name, last_name, email, password_hash;
+                    INSERT INTO users (first_name, last_name, email, password_hash) VALUES (%s, %s, %s,
+                    %s) RETURNING user_id, first_name, last_name, email, password_hash;
                     """,
                     (first_name, last_name, email, password_hash),
                 )
@@ -39,6 +40,7 @@ class UserDatabaseHandlerRds:
         return User.from_row(row)
 
     def select_user_by_email(self, email):
+
         """
         Finds one account by email for log in and for duplicate sign up checks.
 
@@ -49,9 +51,8 @@ class UserDatabaseHandlerRds:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT user_id, first_name, last_name, email, password_hash
-                    FROM users
-                    WHERE lower(email) = lower(%s);
+                    SELECT user_id, first_name, last_name, email,
+                    password_hash FROM users WHERE lower(email) = lower(%s);
                     """,
                     (email,),
                 )
@@ -63,19 +64,19 @@ class UserDatabaseHandlerRds:
         return User.from_row(row)
 
     def select_user_by_id(self, user_id):
+
         """
         Finds one account by primary key when I already know the session user id.
 
-        Contact ownership checks will use this pattern once contacts are stored in Postgres.
+        Contact ownership already uses contacts.user_id in the contacts queries.
+        I keep this method for looking up an account by id, for example if I later re check that the signed in user still exists in Postgres.
         """
 
         with get_connection() as connection:
             with connection.cursor() as cursor:
                 cursor.execute(
                     """
-                    SELECT user_id, first_name, last_name, email, password_hash
-                    FROM users
-                    WHERE user_id = %s;
+                    SELECT user_id, first_name, last_name, email, password_hash FROM users WHERE user_id = %s;
                     """,
                     (user_id,),
                 )

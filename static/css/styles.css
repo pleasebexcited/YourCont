@@ -9,7 +9,9 @@
 */
 
 :root {
+
   /* Hex values taken from my Figma style guide for YourCont. */
+
   --blue-dark: #1254B0;
   --blue-page: #4486E3;
   --blue-field: #B4D3F9;
@@ -38,11 +40,14 @@ a {
 }
 
 .page-auth {
+
   /* Log in and sign up use the darker blue full page background from my Hi Fi. */
+
   background: var(--blue-dark);
 }
 
 /* Top bar shown after someone is signed into YourCont. */
+
 .site-header {
   display: flex;
   align-items: center;
@@ -65,7 +70,9 @@ a {
 }
 
 .home-icon {
+
   /* Twenty percent opacity matches the home icon treatment in my Hi Fi header. */
+
   display: inline-flex;
   opacity: 0.2;
 }
@@ -97,6 +104,7 @@ a {
 }
 
 /* Centre the main card area for both app pages and auth pages. */
+
 .main-shell,
 .auth-shell {
   width: min(920px, calc(100% - 2rem));
@@ -121,7 +129,9 @@ a {
 }
 
 .page-auth .flash-list {
+
   /* Darker flash panel so messages stay readable on the auth background. */
+
   background: rgba(0, 0, 0, 0.18);
 }
 
@@ -144,7 +154,9 @@ a {
 }
 
 .panel-contacts {
+
   /* Flex column lets Create Contact sit near the bottom of the content box. */
+
   display: flex;
   flex-direction: column;
   min-height: 70vh;
@@ -189,6 +201,7 @@ label {
 }
 
 /* Light blue fields match the Hi Fi input treatment across forms and Coming Soon labels. */
+
 input,
 textarea,
 .readonly-box,
@@ -292,7 +305,9 @@ textarea::placeholder {
 }
 
 .coming-soon-field {
+
   /* Visible only. Extra rules sit on top of the shared field look above. */
+
   flex: 1 1 160px;
   opacity: 0.85;
   font-weight: 600;
@@ -368,7 +383,9 @@ textarea::placeholder {
 }
 
 .avatar-upload {
+
   /* Overflow visible so the plus badge is not clipped off the circle. */
+
   overflow: visible;
 }
 
@@ -413,7 +430,9 @@ textarea::placeholder {
 }
 
 .confirm-card {
+
   /* White delete card stands apart from the dark blue contact panels, as in my Hi Fi. */
+
   width: min(520px, 100%);
   margin: 2rem auto 0;
   background: #ffffff;
@@ -483,7 +502,9 @@ textarea::placeholder {
 }
 
 @media (max-width: 640px) {
+
   /* Stack name rows and button pairs on narrow screens so phones stay usable. */
+
   .main-shell,
   .auth-shell {
     width: calc(100% - 1rem);

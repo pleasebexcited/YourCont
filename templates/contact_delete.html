@@ -4,8 +4,9 @@
   Are you sure screen before removing a contact.
   White card, warning icon, Delete and Cancel match my confirm Hi Fi.
   Cancel goes back to the contact detail page.
-  Delete still only returns to the list until real remove logic is built against Postgres.
+  Delete posts with a CSRF token so ContactRequestHandler can remove only an owned row.
 #}
+
 {% extends "base.html" %}
 
 {% block title %}Delete Contact | YourCont{% endblock %}
@@ -15,6 +16,7 @@
     <h1 class="confirm-title">Delete Contact</h1>
 
     {# Red warning triangle drawn inline so I do not need an extra image file. #}
+
     <div class="warning-icon" aria-hidden="true">
         <svg viewBox="0 0 120 110" role="img">
             <path d="M60 8 L114 102 H6 Z" fill="#FF0000" stroke="#b00000" stroke-width="4" stroke-linejoin="round"></path>
@@ -27,8 +29,8 @@
     <p class="confirm-name">{{ contact.first_name }} {{ contact.last_name }}</p>
 
     <div class="btn-row confirm-actions">
-        {# Temporary get form. Real delete will POST and remove the owned row. #}
-        <form action="{{ url_for('contacts') }}" method="get">
+        <form action="{{ url_for('contact_delete', contact_id=contact.id) }}" method="post">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
             <button class="btn btn-danger" type="submit">Delete</button>
         </form>
         <a class="btn btn-cancel" href="{{ url_for('contact_detail', contact_id=contact.id) }}">Cancel</a>

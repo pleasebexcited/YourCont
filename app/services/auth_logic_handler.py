@@ -2,9 +2,11 @@
 app/services/auth_logic_handler.py: Account rules for signing up and logging in
 
 Sign up and log in rules for YourCont live here so routes and request handlers stay thin.
-Field checks, password hashing with Werkzeug web application library, and building a UserSession all happen in this class.
+Field checks, password hashing with Werkzeug web application library,
+and building a UserSession all happen in this class.
 Plain password text never goes into Postgres, only a hash is stored.
-I am using Werkzeug for YourCont as it already comes with Flask and gives me safe password hashing and checking without needing to write that security code myself.
+I am using Werkzeug for YourCont as it already comes with Flask,
+and gives me safe password hashing and checking without needing to additional unneccessary security code.
 """
 
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -13,11 +15,13 @@ from app.models.user_session import UserSession
 from app.services.user_database_handler import UserDatabaseHandlerRds
 
 class AuthLogicHandler:
+
     """
     Account rules used by AuthRequestHandler when someone registers or signs in.
     """
 
     def __init__(self, user_db=None):
+
         """
         Attaches the users table helper.
         A different user_db can be passed in later for tests without needing a live database.
@@ -26,10 +30,12 @@ class AuthLogicHandler:
         self.user_db = user_db or UserDatabaseHandlerRds()
 
     def register_user(self, first_name, last_name, email, password):
+
         """
         Validates sign up fields, hashes the password, and inserts a new users row.
 
-        Returns True with a success message when the account is created, or False with an error message when something is wrong.
+        Returns True with a success message when the account is created,
+        or False with an error message when something is wrong.
         AuthRequestHandler turns that into a redirect or shows the form again.
         """
 
@@ -41,11 +47,14 @@ class AuthLogicHandler:
         if not first_name or not last_name or not email or not password:
             return False, "Please fill in all fields."
 
-        # Eight characters will just be for MVP launch, I wiil improve validation/security post deployment in future sprints.
+        # Eight characters will just be for MVP launch,
+        # I wiil improve validation/security post deployment in future sprints.
+
         if len(password) < 8:
             return False, "Password must be at least 8 characters."
 
         # Each email can only own one YourCont account.
+
         if self.user_db.select_user_by_email(email):
             return False, "An account with that email already exists."
 
@@ -55,6 +64,7 @@ class AuthLogicHandler:
         return True, "Account created. Please log in."
 
     def authenticate(self, email, password):
+
         """
         Checks email and password against the users table.
 
@@ -73,6 +83,7 @@ class AuthLogicHandler:
         return user, None
 
     def create_session(self, user):
+
         """
         Builds the small UserSession stored in the Flask cookie after a successful log in.
         """
@@ -84,6 +95,7 @@ class AuthLogicHandler:
         )
 
     def validate_session(self, session_data):
+
         """
         Turns cookie data back into a UserSession, or None when the data is missing or incomplete.
         """
