@@ -6,7 +6,12 @@ These values come from the contacts table in Postgres.
 I use a Contact class instead of a loose dictionary so templates and handlers can read clear names like contact.email.
 ContactDatabaseHandlerRds builds a Contact after a database query.
 ContactLogicHandler then uses that Contact when listing, viewing, updating, or deleting.
-profile_image_key is stored ready for S3 in a later milestone.
+profile_image_key holds the private S3 object key when a photo exists.
+I keep the key on the Contact object so the rest of the app knows which file belongs to this person,
+without storing a public website link in Postgres.
+Handlers may also set profile_image_url to a short lived link for templates.
+The temporary link is what the list, detail, and edit pages use to show the photo in the browser,
+meaning the image can appear on screen without making the S3 bucket public.
 This file only stores contact fields.
 It does not talk to the browser or run SQL itself.
 """
@@ -54,6 +59,7 @@ class Contact:
         self.relationship = relationship or ""
         self.notes = notes or ""
         self.profile_image_key = profile_image_key
+        self.profile_image_url = None
 
     @property
     def id(self):

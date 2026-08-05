@@ -2,7 +2,7 @@
   partials/avatar.svg: Default person image when no photo is uploaded
 
   Placeholder person drawing for YourCont when no contact photo has been uploaded yet.
-  List, detail, and form pages include this file so every screen shares the same look without needing a real image file during early milestones.
+  List, detail, and form pages include this file so every screen shares the same look when there is no S3 photo to show.
 -->
 <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Contact placeholder">
     <circle cx="40" cy="40" r="40" fill="#9ec4f0"></circle>

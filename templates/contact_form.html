@@ -5,7 +5,7 @@
   The mode value switches the title and button between New Contact / Create and Update Contact Details / Confirm.
   Field list matches my brief and Hi Fi.
   The form posts with a CSRF token so create and update save through ContactRequestHandler.
-  The plus on the avatar is visual only until S3 image upload.
+  The plus on the avatar opens a file picker for an optional JPEG or PNG photo stored in S3.
 #}
 
 {% extends "base.html" %}
@@ -16,24 +16,30 @@
 <section class="panel">
     <h1 class="panel-title">{% if mode == 'create' %}New Contact{% else %}Update Contact Details{% endif %}</h1>
 
-    <div class="avatar-wrap">
-        <div class="avatar avatar-lg avatar-upload">
-            <span class="avatar-image">
-                {% include "partials/avatar.svg" %}
-            </span>
-
-            {# Plus badge matches the Hi Fi. It does not open a file picker yet. #}
-
-            <span class="avatar-add" aria-hidden="true">+</span>
-        </div>
-    </div>
-
     {% if mode == 'create' %}
-    <form class="contact-form" action="{{ url_for('contact_new') }}" method="post">
+    <form class="contact-form" action="{{ url_for('contact_new') }}" method="post" enctype="multipart/form-data">
     {% else %}
-    <form class="contact-form" action="{{ url_for('contact_edit', contact_id=contact.id) }}" method="post">
+    <form class="contact-form" action="{{ url_for('contact_edit', contact_id=contact.id) }}" method="post" enctype="multipart/form-data">
     {% endif %}
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="avatar-wrap">
+            <div class="avatar avatar-lg avatar-upload">
+                <span class="avatar-image">
+                    {% if contact and contact.profile_image_url %}
+                    <img src="{{ contact.profile_image_url }}" alt="">
+                    {% else %}
+                    {% include "partials/avatar.svg" %}
+                    {% endif %}
+                </span>
+
+                {# Hidden file input, opened by the plus badge label to match the Hi Fi. #}
+
+                <input class="avatar-file-input" id="profile_image" name="profile_image" type="file" accept="image/jpeg,image/png,.jpg,.jpeg,.png">
+                <label class="avatar-add" for="profile_image" aria-label="Add contact photo">+</label>
+            </div>
+            <p class="avatar-hint">JPEG or PNG, up to 2 MB. Optional.</p>
+        </div>
 
         <div class="field-row">
             <div class="field">

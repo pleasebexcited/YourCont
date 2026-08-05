@@ -36,7 +36,9 @@ class ContactDatabaseHandlerRds:
         Inserts a new contact owned by user_id and returns it as a Contact.
 
         RETURNING gives me the new row straight away so ContactRequestHandler can redirect or flash without a second query.
-        profile_image_key stays empty for now until I build the S3 upload.
+        profile_image_key stores the private S3 object key when a photo was uploaded.
+        I save the key instead of a full website link so the photo can stay private in S3,
+        and YourCont can build a short lived URL later whenever someone opens the contact.
         """
 
         with get_connection() as connection:
@@ -132,6 +134,7 @@ class ContactDatabaseHandlerRds:
         birthday,
         relationship,
         notes,
+        profile_image_key=None,
     ):
 
         """
@@ -140,6 +143,8 @@ class ContactDatabaseHandlerRds:
 
         The WHERE clause needs both contact id and user id,
         so an edit post cannot change another account's row.
+        profile_image_key is updated when ContactLogicHandler replaces or keeps the S3 photo key so an edit with a new photo points at the new file,
+        and an edit with no new photo keeps the same picture on the contact.
         """
 
         with get_connection() as connection:
@@ -154,7 +159,8 @@ class ContactDatabaseHandlerRds:
                         address = %s,
                         birthday = %s,
                         relationship = %s,
-                        notes = %s
+                        notes = %s,
+                        profile_image_key = %s
                     WHERE contact_id = %s AND user_id = %s
                     RETURNING contact_id, user_id, first_name, last_name, email, phone,
                               address, birthday, relationship, notes, profile_image_key;
@@ -168,6 +174,7 @@ class ContactDatabaseHandlerRds:
                         birthday,
                         relationship,
                         notes,
+                        profile_image_key,
                         contact_id,
                         user_id,
                     ),

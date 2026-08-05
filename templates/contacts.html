@@ -31,7 +31,11 @@
         <li>
             <a class="contact-row" href="{{ url_for('contact_detail', contact_id=contact.id) }}">
                 <span class="avatar avatar-sm" aria-hidden="true">
+                    {% if contact.profile_image_url %}
+                    <img src="{{ contact.profile_image_url }}" alt="">
+                    {% else %}
                     {% include "partials/avatar.svg" %}
+                    {% endif %}
                 </span>
                 <span class="contact-meta">
                     <span class="contact-name">{{ contact.first_name }} {{ contact.last_name }}</span>

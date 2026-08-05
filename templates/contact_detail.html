@@ -17,7 +17,11 @@
 
     <div class="avatar-wrap">
         <div class="avatar avatar-lg">
+            {% if contact.profile_image_url %}
+            <img src="{{ contact.profile_image_url }}" alt="">
+            {% else %}
             {% include "partials/avatar.svg" %}
+            {% endif %}
         </div>
     </div>
 

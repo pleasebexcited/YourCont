@@ -51,7 +51,7 @@ class ContactRequestHandler(BaseRequestHandler):
 
         routes.py sends /contacts here after require_login.
         The rows come from Postgres through ContactLogicHandler,
-        then contacts.html draws the Hi Fi style list cards.
+        then contacts.html draws the Hi Fi style list cards I setup in CSS.
         """
 
         user_id = self._current_user_id()
@@ -68,6 +68,9 @@ class ContactRequestHandler(BaseRequestHandler):
         POST asks ContactLogicHandler to validate and save the row for this user.
         After a successful save I send the person back to the contacts list with a Contact Created message,
         matching the flow I locked in the plan.
+        An optional profile photo can be posted with the form and stored in S3.
+        I do this so a contact can have a picture saved with their details,
+        without needing a separate upload screen.
         If validation fails I show the form again with the typed values still filled in.
         """
 
@@ -77,7 +80,11 @@ class ContactRequestHandler(BaseRequestHandler):
         user_id = self._current_user_id()
 
         try:
-            ok, message, contact = self.contact_logic.process_create(user_id, request.form)
+            ok, message, contact = self.contact_logic.process_create(
+                user_id,
+                request.form,
+                image_file=request.files.get("profile_image"),
+            )
         except RuntimeError as error:
             self.flash_error(str(error))
             return render_template(
@@ -144,6 +151,7 @@ class ContactRequestHandler(BaseRequestHandler):
                 contact_id,
                 user_id,
                 request.form,
+                image_file=request.files.get("profile_image"),
             )
         except RuntimeError as error:
             self.flash_error(str(error))
